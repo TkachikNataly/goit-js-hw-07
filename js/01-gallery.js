@@ -19,6 +19,7 @@ galleryContainerRef.insertAdjacentHTML("beforeend", imagesMarkup);
 galleryContainerRef .addEventListener('click', onContainerClick);
 
 function onContainerClick(e) {
+      e.preventDefault();
 
     if (!e.target.classList.contains('gallery__image')) {
         return;
@@ -30,17 +31,20 @@ galleryContainerRef .addEventListener('click', createModal)
 
 let image = '';
 function createModal(e) {
-    e.preventDefault();
     image = basicLightbox.create(
         `<div class = 'modal'> <img src = '${e.target.dataset.source}'></div>`
     );
     image.show();
 }
-
+window.addEventListener('keydown', onEscKeyPress);
 function onEscKeyPress(e) {
-    if (e.code === "Escape") {
+  if (e.code !== "Escape") {
+    return
+  }
+  {
         image.close();
     }
+  window.removeEventListener('keydown', createModal);
 }
 
-galleryContainerRef .addEventListener('keydown', onEscKeyPress);
+
