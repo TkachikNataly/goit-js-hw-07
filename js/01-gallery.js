@@ -1,13 +1,6 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
 const galleryContainerRef = document.querySelector(".gallery");
-// /*------------Создание и рендер разметки по массиву данных galleryItems и предоставленному шаблону элемента галереи-------------*/
-
-const imagesMarkup = createItemsMarkup(galleryItems);
-galleryContainerRef.insertAdjacentHTML("beforeend", imagesMarkup);
-function createItemsMarkup(item){
-    return galleryItems
-        .map(({ preview, original, description }) => {
+const imagesMarkup = galleryItems.map(({ preview, original, description }) => {
       return `<div class="gallery__item">
       <a class="gallery__link" href="${original.value}">
         <img
@@ -20,8 +13,34 @@ function createItemsMarkup(item){
     </div>`;
     })
     .join("");
-}
+  
 console.log(imagesMarkup);
+galleryContainerRef.insertAdjacentHTML("beforeend", imagesMarkup);
+galleryContainerRef .addEventListener('click', onContainerClick);
 
-// /*------------Реализация делегирования на div.gallery и получение url большого изображения-------------*/
+function onContainerClick(e) {
 
+    if (!e.target.classList.contains('gallery__image')) {
+        return;
+    }
+    console.log(e.target);
+}
+
+galleryContainerRef .addEventListener('click', createModal)
+
+let image = '';
+function createModal(e) {
+    e.preventDefault();
+    image = basicLightbox.create(
+        `<div class = 'modal'> <img src = '${e.target.dataset.source}'></div>`
+    );
+    image.show();
+}
+
+function onEscKeyPress(e) {
+    if (e.code === "Escape") {
+        image.close();
+    }
+}
+
+galleryContainerRef .addEventListener('keydown', onEscKeyPress);
