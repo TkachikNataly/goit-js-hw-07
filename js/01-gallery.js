@@ -32,7 +32,7 @@ galleryContainerRef .addEventListener('click', createModal)
 let image = '';
 function createModal(e) {
     image = basicLightbox.create(
-        `<div class = 'modal'> <img src = '${e.target.dataset.source}'></div>`
+        `<img src = '${e.target.dataset.source}'>`
     );
     image.show();
 }
